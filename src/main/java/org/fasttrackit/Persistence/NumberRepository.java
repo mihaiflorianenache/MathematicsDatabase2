@@ -38,11 +38,10 @@ public class NumberRepository {
 
     public void insertMirrorNumber(int initialNumber, int mirrorNumber) throws SQLException {
         try(Connection connection=DatabaseConfiguration.getConnection()){
-            String insertMirrorNumber="INSERT INTO matematica (`Oglinditul Numarului`) VALUES(?) WHERE Numar="+initialNumber;
+            String insertMirrorNumber="UPDATE matematica SET OglinditulNumarului="+mirrorNumber+" WHERE Numar="+initialNumber;
 
-            PreparedStatement preparedStatement=connection.prepareStatement(insertMirrorNumber);
-            preparedStatement.setInt(1,mirrorNumber);
-            preparedStatement.executeUpdate();
+            Statement statement=connection.createStatement();
+            statement.execute(insertMirrorNumber);
         }
     }
 }
