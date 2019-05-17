@@ -6,24 +6,95 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
 public class Number {
 
     private NumberService numberService = new NumberService();
     private Anzahl anzahl = new Anzahl();
     private Stack<Anzahl> stackNumber = new Stack<>();
+    private List<NumberMirrorNumber> pairNumberMirrorNumber=new ArrayList<>();
 
     public void callIntroduceNumber() throws SQLException, IOException {
-        /*int numberNumbers=numberOfNumbers();
+
+        if(numberService.getNumber().size()>0){
+            deleteRecords();
+        }
+
+        int numberNumbers=numberOfNumbers();
         int i;
         for(i=0;i<numberNumbers;i++) {
             introduceNumber();
-        }*/
-        showNumbers();
-        algorithms();
+        }
+        //showNumbers();
+        //algorithms();
+
+        //showPairNumberMirrorNumber();
+        //palindrom();
+    }
+
+    private String deleteRecords() throws SQLException {
+        System.out.println("Do you want to delete some records from table ?Y/N");
+        BufferedReader deleteRecords=new BufferedReader(new InputStreamReader(System.in));
+        try {
+            String answer = deleteRecords.readLine();
+            if(answer.equalsIgnoreCase("y"))
+                delete();
+            else
+                if(answer.equalsIgnoreCase("n"))
+                    System.out.println("You will not delete any record from table");
+
+                else
+                {
+                    System.out.println("You must to choose between Y and N");
+                    return deleteRecords();
+                }
+        }catch(IOException exception){
+            System.out.println("The answer can not be read because of the error "+exception.getMessage());
+        }
+        return null;
+    }
+
+    private String delete() throws IOException, SQLException {
+        System.out.println("Do you want to delete 1-all records or 2-some records ?");
+        BufferedReader choice=new BufferedReader(new InputStreamReader(System.in));
+        try {
+            int choiceNumber = Integer.parseInt(choice.readLine());
+            if(choiceNumber<1 || choiceNumber>2) delete();
+            else
+                if(choiceNumber==1){
+                    numberService.deleteAllRecords();
+                }
+                else
+                    if(choiceNumber==2) {
+                        deleteRecord();
+                    }
+        }catch(NumberFormatException exception){
+            System.out.println("You must to choice a digit between 1 and 2");
+            return delete();
+        }
+        return null;
+    }
+
+    private int deleteRecord() throws SQLException {
+        System.out.println("Choice between follow records for deleting");
+        int i=0;
+        for(Anzahl anzahl : numberService.getNumber()){
+            if(i!=numberService.getNumber().size()-1) System.out.print((i+1)+"-"+anzahl.getNumber()+", ");
+            else System.out.print((i+1)+"-"+anzahl.getNumber());
+            i++;
+        }
+        Scanner choice=new Scanner(System.in);
+        try {
+            int j = choice.nextInt();
+            if(j<1 || j>numberService.getNumber().size())
+                return deleteRecord();
+            else
+                numberService.
+        }catch(InputMismatchException exception){
+            System.out.println("You must to choice between a choice from above");
+            return deleteRecord();
+        }
     }
 
     private void introduceNumber() throws IOException, SQLException {
@@ -105,5 +176,29 @@ public class Number {
             numberDigit++;
         }
         return numberDigit;
+    }
+
+    private void showPairNumberMirrorNumber() throws SQLException {
+        for(NumberMirrorNumber numberMirrorNumber:numberService.numarOglinditulNumarului()){
+            pairNumberMirrorNumber.add(numberMirrorNumber);
+        }
+
+        System.out.println("Pair(Number,Mirror Number) are");
+        int i;
+        for(i=0;i<pairNumberMirrorNumber.size();i++){
+            System.out.println(pairNumberMirrorNumber.get(i).getNumar()+" "+pairNumberMirrorNumber.get(i).getOglinditulNumarului());
+        }
+    }
+
+    private void palindrom() throws SQLException {
+        int i;
+        for(i=0;i<pairNumberMirrorNumber.size();i++){
+            if(pairNumberMirrorNumber.get(i).getNumar()==pairNumberMirrorNumber.get(i).getOglinditulNumarului()){
+                numberService.palindromValue(true,pairNumberMirrorNumber.get(i).getNumar(),pairNumberMirrorNumber.get(i).getOglinditulNumarului());
+            }
+            else{
+                numberService.palindromValue(false,pairNumberMirrorNumber.get(i).getNumar(),pairNumberMirrorNumber.get(i).getOglinditulNumarului());
+            }
+        }
     }
 }

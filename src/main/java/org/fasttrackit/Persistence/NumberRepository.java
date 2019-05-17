@@ -1,8 +1,11 @@
 package org.fasttrackit.Persistence;
 
 import org.fasttrackit.Domain.Anzahl;
+import org.fasttrackit.Domain.NumberMirrorNumber;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class NumberRepository {
@@ -42,6 +45,50 @@ public class NumberRepository {
 
             Statement statement=connection.createStatement();
             statement.execute(insertMirrorNumber);
+        }
+    }
+
+    public List<NumberMirrorNumber> numarOglinditulNumarului() throws SQLException {
+        try(Connection connection=DatabaseConfiguration.getConnection()){
+            String getNumberMirrorNumber="SELECT Numar,OglinditulNumarului FROM matematica";
+
+            Statement statement=connection.createStatement();
+            statement.execute(getNumberMirrorNumber);
+
+            ResultSet resultSet=statement.executeQuery(getNumberMirrorNumber);
+            List<NumberMirrorNumber> listNumberMirrorNumber=new ArrayList<>();
+
+            while(resultSet.next()){
+                NumberMirrorNumber numberMirrorNumber=new NumberMirrorNumber();
+                numberMirrorNumber.setNumar(resultSet.getInt("Numar"));
+                numberMirrorNumber.setOglinditulNumarului(resultSet.getInt("OglinditulNumarului"));
+                listNumberMirrorNumber.add(numberMirrorNumber);
+            }
+            return listNumberMirrorNumber;
+        }
+    }
+
+    public void insertPalindromValue(boolean value,int numar,int oglinditulNumarului) throws SQLException {
+        try(Connection connection=DatabaseConfiguration.getConnection()){
+            String insertPalindromValue="UPDATE matematica SET Palindrom="+value+" WHERE Numar="+numar+" AND OglinditulNumarului="+oglinditulNumarului;
+            Statement statement=connection.createStatement();
+            statement.execute(insertPalindromValue);
+        }
+    }
+
+    public void deleteAllRecords() throws SQLException {
+        try(Connection connection=DatabaseConfiguration.getConnection()){
+            String deleteRecords="DELETE FROM matematica";
+            Statement statement=connection.createStatement();
+            statement.execute(deleteRecords);
+        }
+    }
+
+    public void deleteRecord()throws SQLException{
+        try(Connection connection=DatabaseConfiguration.getConnection()){
+            String deleteRecords="DELETE FROM matematica WHERE ";
+            Statement statement=connection.createStatement();
+            statement.execute(deleteRecords);
         }
     }
 }
