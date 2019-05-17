@@ -17,7 +17,7 @@ public class Number {
 
     public void callIntroduceNumber() throws SQLException, IOException {
 
-       /* if(numberService.getNumber().size()>0){
+        if(numberService.getNumber().size()>0){
             deleteRecords();
         }
 
@@ -25,7 +25,7 @@ public class Number {
         int i;
         for(i=0;i<numberNumbers;i++) {
             introduceNumber();
-        }*/
+        }
         showNumbers();
         algorithms();
 
@@ -112,12 +112,12 @@ public class Number {
         }
     }
 
-    private int numberOfNumbers() throws IOException {
+    private int numberOfNumbers() throws IOException,SQLException {
         System.out.println("How many numbers you want to introduce ?");
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         try {
             int numberNumbers = Integer.parseInt(bufferedReader.readLine());
-            if (numberNumbers < 1) return numberOfNumbers();
+            if (numberNumbers < 1 && numberService.getNumber().size()==0) return numberOfNumbers();
             return numberNumbers;
         } catch (NumberFormatException exception) {
             System.out.println("You must to introduce a number");
@@ -185,7 +185,7 @@ public class Number {
             pairNumberMirrorNumber.add(numberMirrorNumber);
         }
 
-        System.out.println("Pair(Number,Mirror Number) are");
+        System.out.println("Pairs(Number,Mirror Number) are");
         int i;
         for(i=0;i<pairNumberMirrorNumber.size();i++){
             System.out.println(pairNumberMirrorNumber.get(i).getNumar()+" "+pairNumberMirrorNumber.get(i).getOglinditulNumarului());
@@ -204,17 +204,17 @@ public class Number {
         }
     }
 
-    private void prim() throws SQLException {
+    private void prim() throws SQLException {//metoda trebuie verificata din nou (la if->else if->else)
         int i,nr,j;
         boolean state = true;
-        for(j=0;j<stackNumber.size();j++){
-            nr=stackNumber.get(j).getNumber();
+        for(j=0;j<pairNumberMirrorNumber.size();j++){
+            nr=pairNumberMirrorNumber.get(j).getNumar();
             for (i = 2; i < 1 + nr / 2; i++) {
                 if (nr % i == 0) state = false;
             }
-            if (nr == 1 || nr == 0) numberService.primValue(false,pairNumberMirrorNumber.get(i).getNumar(),pairNumberMirrorNumber.get(i).getOglinditulNumarului());
-            else if (state == true) numberService.primValue(true,pairNumberMirrorNumber.get(i).getNumar(),pairNumberMirrorNumber.get(i).getOglinditulNumarului());
-            else numberService.primValue(false,pairNumberMirrorNumber.get(i).getNumar(),pairNumberMirrorNumber.get(i).getOglinditulNumarului());
+            if (nr == 1 || nr == 0) numberService.primValue(false,pairNumberMirrorNumber.get(j).getNumar(),pairNumberMirrorNumber.get(j).getOglinditulNumarului());
+            else if (state == true) numberService.primValue(true,pairNumberMirrorNumber.get(j).getNumar(),pairNumberMirrorNumber.get(j).getOglinditulNumarului());
+            else numberService.primValue(false,pairNumberMirrorNumber.get(j).getNumar(),pairNumberMirrorNumber.get(j).getOglinditulNumarului());
         }
     }
 }
