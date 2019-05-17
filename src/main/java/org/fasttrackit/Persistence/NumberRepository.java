@@ -84,11 +84,19 @@ public class NumberRepository {
         }
     }
 
-    public void deleteRecord()throws SQLException{
+    public void deleteRecord(int number)throws SQLException{
         try(Connection connection=DatabaseConfiguration.getConnection()){
-            String deleteRecords="DELETE FROM matematica WHERE ";
+            String deleteRecords="DELETE FROM matematica WHERE Numar="+number;
             Statement statement=connection.createStatement();
             statement.execute(deleteRecords);
+        }
+    }
+
+    public void primValue(boolean value,int numar,int oglinditulNumarului) throws SQLException {
+        try(Connection connection=DatabaseConfiguration.getConnection()){
+            String insertPrimValue="UPDATE matematica SET Prim="+value+" WHERE Numar="+numar+" AND OglinditulNumarului= "+oglinditulNumarului;
+            Statement statement=connection.createStatement();
+            statement.execute(insertPrimValue);
         }
     }
 }

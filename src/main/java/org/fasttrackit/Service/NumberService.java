@@ -35,4 +35,12 @@ public class NumberService {
     public void deleteAllRecords() throws SQLException {
         numberRepository.deleteAllRecords();
     }
+
+    public void deleteRecord(int number) throws SQLException {
+        numberRepository.deleteRecord(number);
+    }
+
+    public void primValue(boolean value,int numar,int oglinditulNumarului) throws SQLException {
+        numberRepository.primValue(value,numar,oglinditulNumarului);
+    }
 }

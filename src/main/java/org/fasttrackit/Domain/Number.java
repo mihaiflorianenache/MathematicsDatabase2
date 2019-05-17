@@ -17,7 +17,7 @@ public class Number {
 
     public void callIntroduceNumber() throws SQLException, IOException {
 
-        if(numberService.getNumber().size()>0){
+       /* if(numberService.getNumber().size()>0){
             deleteRecords();
         }
 
@@ -25,12 +25,13 @@ public class Number {
         int i;
         for(i=0;i<numberNumbers;i++) {
             introduceNumber();
-        }
-        //showNumbers();
-        //algorithms();
+        }*/
+        showNumbers();
+        algorithms();
 
-        //showPairNumberMirrorNumber();
-        //palindrom();
+        showPairNumberMirrorNumber();
+        palindrom();
+        prim();
     }
 
     private String deleteRecords() throws SQLException {
@@ -90,11 +91,12 @@ public class Number {
             if(j<1 || j>numberService.getNumber().size())
                 return deleteRecord();
             else
-                numberService.
+                numberService.deleteRecord(numberService.getNumber().get(j-1).getNumber());
         }catch(InputMismatchException exception){
             System.out.println("You must to choice between a choice from above");
             return deleteRecord();
         }
+        return 0;
     }
 
     private void introduceNumber() throws IOException, SQLException {
@@ -199,6 +201,20 @@ public class Number {
             else{
                 numberService.palindromValue(false,pairNumberMirrorNumber.get(i).getNumar(),pairNumberMirrorNumber.get(i).getOglinditulNumarului());
             }
+        }
+    }
+
+    private void prim() throws SQLException {
+        int i,nr,j;
+        boolean state = true;
+        for(j=0;j<stackNumber.size();j++){
+            nr=stackNumber.get(j).getNumber();
+            for (i = 2; i < 1 + nr / 2; i++) {
+                if (nr % i == 0) state = false;
+            }
+            if (nr == 1 || nr == 0) numberService.primValue(false,pairNumberMirrorNumber.get(i).getNumar(),pairNumberMirrorNumber.get(i).getOglinditulNumarului());
+            else if (state == true) numberService.primValue(true,pairNumberMirrorNumber.get(i).getNumar(),pairNumberMirrorNumber.get(i).getOglinditulNumarului());
+            else numberService.primValue(false,pairNumberMirrorNumber.get(i).getNumar(),pairNumberMirrorNumber.get(i).getOglinditulNumarului());
         }
     }
 }
