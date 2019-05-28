@@ -227,7 +227,7 @@ public class Number {
         }
     }
 
-    String primeNumber(int number) {
+    private String primeNumber(int number) {
         boolean state = true;
         int i;
         for (i = 2; i < 1 + number / 2; i++) {
@@ -239,5 +239,16 @@ public class Number {
         if (number == 1 || number == 0) return "is not prime";
         else if (state == true) return "is prime";
         else return "is not prime";
+    }
+
+    private void radical(){
+        int i;
+        for(i=0;i<stackNumber.size();i++){
+            calculRadical(stackNumber.get(i).getNumber());
+        }
+    }
+
+    private void calculRadical(int number){
+
     }
 }
