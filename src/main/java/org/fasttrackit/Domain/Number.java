@@ -205,7 +205,7 @@ public class Number {
         }
     }
 
-    private void prim(){
+    private void prim() throws SQLException {
         int i;
         int number;
         String prim;
@@ -217,7 +217,13 @@ public class Number {
             else {
                 prim = primeNumber(pairNumberMirrorNumber.get(i).getNumar());
             }
-            System.out.println(prim);
+
+            if(prim.equals("is prime")) {
+                numberService.primValue(true,pairNumberMirrorNumber.get(i).getNumar(),pairNumberMirrorNumber.get(i).getOglinditulNumarului());
+            }
+            else{
+                numberService.primValue(false,pairNumberMirrorNumber.get(i).getNumar(),pairNumberMirrorNumber.get(i).getOglinditulNumarului());
+            }
         }
     }
 
