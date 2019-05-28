@@ -21,6 +21,7 @@ public class Number {
             deleteRecords();
         }
 
+        //cel putin un numar trebuie introdus
         int numberNumbers=numberOfNumbers();
         int i;
         for(i=0;i<numberNumbers;i++) {
@@ -204,17 +205,33 @@ public class Number {
         }
     }
 
-    private void prim() throws SQLException {//metoda trebuie verificata din nou (la if->else if->else)
-        int i,nr,j;
-        boolean state = true;
-        for(j=0;j<pairNumberMirrorNumber.size();j++){
-            nr=pairNumberMirrorNumber.get(j).getNumar();
-            for (i = 2; i < 1 + nr / 2; i++) {
-                if (nr % i == 0) state = false;
+    private void prim(){
+        int i;
+        int number;
+        String prim;
+        for(i=0;i<pairNumberMirrorNumber.size();i++){
+            if(pairNumberMirrorNumber.get(i).getNumar()<0) {
+                number=pairNumberMirrorNumber.get(i).getNumar() * (-1);
+                prim = primeNumber(number);
             }
-            if (nr == 1 || nr == 0) numberService.primValue(false,pairNumberMirrorNumber.get(j).getNumar(),pairNumberMirrorNumber.get(j).getOglinditulNumarului());
-            else if (state == true) numberService.primValue(true,pairNumberMirrorNumber.get(j).getNumar(),pairNumberMirrorNumber.get(j).getOglinditulNumarului());
-            else numberService.primValue(false,pairNumberMirrorNumber.get(j).getNumar(),pairNumberMirrorNumber.get(j).getOglinditulNumarului());
+            else {
+                prim = primeNumber(pairNumberMirrorNumber.get(i).getNumar());
+            }
+            System.out.println(prim);
         }
+    }
+
+    String primeNumber(int number) {
+        boolean state = true;
+        int i;
+        for (i = 2; i < 1 + number / 2; i++) {
+            if (number % i == 0) {
+                state = false;
+                break;
+            }
+        }
+        if (number == 1 || number == 0) return "is not prime";
+        else if (state == true) return "is prime";
+        else return "is not prime";
     }
 }
