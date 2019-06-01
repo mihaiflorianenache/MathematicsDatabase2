@@ -14,6 +14,8 @@ public class Number {
     private Anzahl anzahl = new Anzahl();
     private Stack<Anzahl> stackNumber = new Stack<>();
     private List<NumberMirrorNumber> pairNumberMirrorNumber=new ArrayList<>();
+    private Stack<Integer> stack = new Stack();
+    private List<String> listNumber=new ArrayList<>();
 
     public void callIntroduceNumber() throws SQLException, IOException {
 
@@ -239,16 +241,5 @@ public class Number {
         if (number == 1 || number == 0) return "is not prime";
         else if (state == true) return "is prime";
         else return "is not prime";
-    }
-
-    private void radical(){
-        int i;
-        for(i=0;i<stackNumber.size();i++){
-            calculRadical(stackNumber.get(i).getNumber());
-        }
-    }
-
-    private void calculRadical(int number){
-
     }
 }
